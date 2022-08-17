@@ -1,0 +1,131 @@
+#home {
+  display: flex;
+  min-width: 100vw;
+  align-items: flex-start;
+  #team-maker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 720px;
+    width: 70%;
+    padding: 32px 80px;
+
+    .settings {
+      width: 35%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      label {
+        margin-right: 12px;
+      }
+      .teams-amount {
+        width: 30px;
+        padding: 4px;
+        text-align: center;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    textarea {
+      margin-bottom: 12px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .tags {
+      width: 40%;
+      text-align: center;
+    }
+
+    .players {
+      min-width: 500px;
+      min-height: 140px;
+      border-radius: 5px;
+    }
+
+    .randomize {
+      margin-top: 30px;
+      width: auto;
+    }
+
+    .results {
+      display: flex;
+      min-width: 280px;
+      justify-content: space-between;
+    }
+  }
+  .history {
+    border-left: 1px solid white;
+    min-height: 100vh;
+    min-width: 20%;
+    max-width: 20%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    padding: 35px 24px;
+
+    .last-players {
+      margin-bottom: 340px;
+    }
+    .all-players {
+    }
+  }
+}
+
+.tag {
+  font-size: 16px;
+  background-color: rgb(204, 208, 212);
+  border-radius: 12px;
+  padding: 2px 12px;
+  margin-right: 10px;
+  color: rgb(32, 32, 32);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 14px;
+  display: inline-block;
+
+  .close-btn {
+    margin-left: 10px;
+    height: 16px;
+    width: 16px;
+    font-size: 18px;
+    transform: translateY(2px);
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(59, 10, 10);
+    }
+  }
+
+  &.member {
+    display: block;
+    min-width: 80px;
+  }
+}
+
+.btn {
+  font-weight: 600;
+  background-color: rgb(191, 223, 191);
+  border: none;
+  padding: 12px 46px;
+  border-radius: 6px;
+  transition: all ease-in 0.1s;
+
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &.assign {
+    border-radius: 15px;
+    padding: 12px 26px;
+    color: rgb(238, 238, 238);
+    background-color: rgb(79, 109, 79);
+  }
+}
