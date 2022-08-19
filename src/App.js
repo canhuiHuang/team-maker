@@ -1,5 +1,8 @@
 import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import "./App.scss";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { useState, useEffect } from "react";
 
 const Tag = ({ type, label, style, onClose }) => {
@@ -13,6 +16,22 @@ const Tag = ({ type, label, style, onClose }) => {
   );
 };
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <div>{children}</div>}
+    </div>
+  );
+}
+
 function App() {
   const [playersText, setPlayersText] = useState("");
   const [players, setPlayers] = useState([]);
@@ -21,6 +40,9 @@ function App() {
   const [teams, setTeams] = useState([]);
   const [history, setHistory] = useState({});
   const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState(0);
+  const [formattedResults, setFormattedResults] = useState("");
+  const [copy, setCopy] = useState(false);
 
   const onTextChange = (e) => {
     setPlayersText(e.target.value);
@@ -32,7 +54,9 @@ function App() {
     if (text === "") {
       setPlayers([]);
     } else {
-      setPlayers(text.split(/\s*,\s*/));
+      const newText = text.replace(/\n/g, ",");
+
+      setPlayers(newText.split(/\s*,\s*/));
     }
   };
 
@@ -109,6 +133,7 @@ function App() {
 
       newTeams.push(team);
     }
+    formatResults(newTeams);
     setTeams(newTeams);
   };
 
@@ -147,6 +172,43 @@ function App() {
     });
 
     return <div className="results">{teamsElems}</div>;
+  };
+
+  const formatResults = (teams) => {
+    let text = "";
+    for (let i = 0; i < teams.length; i++) {
+      let results = `Team ${i + 1}: `;
+
+      teams[i].forEach((player, idx) => {
+        results += `${player}${idx < teams[i].length - 1 ? ", " : ""}`;
+      });
+      text += `${results}\n`;
+    }
+    setFormattedResults(text);
+  };
+
+  const plainTextResults = () => {
+    const teamsList = [];
+
+    const list = formattedResults.split(/\n/g);
+    for (let i = 0; i < list.length; i++) {
+      teamsList.push(<div key={i}>{list[i]}</div>);
+    }
+
+    return <div className="results">{teamsList}</div>;
+  };
+
+  const copyResultsText = (discord) => {
+    if (discord) {
+      navigator.clipboard.writeText("```\n" + formattedResults + "\n```");
+    } else {
+      navigator.clipboard.writeText(formattedResults);
+    }
+
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 1500);
   };
 
   const formattedPlayers = (keyName) => {
@@ -257,6 +319,17 @@ function App() {
     );
   };
 
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   useEffect(() => {
     setLoading(true);
     setHistory({
@@ -289,7 +362,42 @@ function App() {
           Randomize
         </button>
         {result()}
-        <div className="results-texts"></div>
+        {teams.length > 0 && (
+          <div className="results-texts">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Plain" {...a11yProps(0)} />
+              <Tab label="Discord" {...a11yProps(1)} />
+            </Tabs>
+            <TabPanel value={value} index={0}>
+              <div className="copy">
+                <ContentCopyIcon
+                  className="copy-btn"
+                  onClick={() => copyResultsText(false)}
+                />
+                {copy && <div className="copied">COPIED</div>}
+              </div>
+              <div className="discord-code">{plainTextResults()}</div>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <div className="copy">
+                <ContentCopyIcon
+                  className="copy-btn"
+                  onClick={() => copyResultsText(true)}
+                />
+                {copy && <div className="copied">COPIED</div>}
+              </div>
+              <div className="discord-code">
+                <div>```</div>
+                {plainTextResults()}
+                <div>```</div>
+              </div>
+            </TabPanel>
+          </div>
+        )}
       </div>
       {!loading && (
         <div className="history">
