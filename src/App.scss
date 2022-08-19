@@ -51,10 +51,65 @@
       width: auto;
     }
 
-    .results {
+    > .results {
       display: flex;
       min-width: 280px;
       justify-content: space-between;
+      // text-align: center;
+      max-width: 40%;
+      overflow-x: auto;
+    }
+
+    .results-texts {
+      margin-top: 24px;
+      background-color: rgb(156, 156, 156);
+      border-radius: 5px;
+      min-width: 40%;
+      max-width: 40%;
+
+      [role="tabpanel"] {
+        min-height: 140px;
+        padding: 24px;
+
+        .copy {
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-start;
+          .copy-btn {
+            margin-right: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all ease 0.15s;
+
+            &:hover {
+              color: #817f7f;
+            }
+          }
+
+          .copied {
+            border: 2px dashed white;
+            border-radius: 6px;
+            padding: 2px 10px;
+            font-size: 14px;
+            transition: ease all 0.3s;
+          }
+        }
+
+        .discord-code {
+          overflow-x: auto;
+          max-width: 100%;
+          font-size: 18px;
+          padding: 20px;
+          background-color: rgb(51, 50, 51);
+          border-radius: 5px;
+
+          .results {
+            .team {
+              margin-right: 14px;
+            }
+          }
+        }
+      }
     }
   }
   .history {
@@ -128,4 +183,26 @@
     color: rgb(238, 238, 238);
     background-color: rgb(79, 109, 79);
   }
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #dcdbdc #000000;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #dcdbdc;
+  border-radius: 6px;
+  border: 1px solid #e7e4e6;
 }
