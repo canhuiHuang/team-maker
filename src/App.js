@@ -362,40 +362,42 @@ function App() {
           Randomize
         </button>
         {result()}
-        <div className="results-texts">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Plain" {...a11yProps(0)} />
-            <Tab label="Discord" {...a11yProps(1)} />
-          </Tabs>
-          <TabPanel value={value} index={0}>
-            <div className="copy">
-              <ContentCopyIcon
-                className="copy-btn"
-                onClick={() => copyResultsText(false)}
-              />
-              {copy && <div className="copied">COPIED</div>}
-            </div>
-            <div className="discord-code">{plainTextResults()}</div>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <div className="copy">
-              <ContentCopyIcon
-                className="copy-btn"
-                onClick={() => copyResultsText(true)}
-              />
-              {copy && <div className="copied">COPIED</div>}
-            </div>
-            <div className="discord-code">
-              <div>```</div>
-              {plainTextResults()}
-              <div>```</div>
-            </div>
-          </TabPanel>
-        </div>
+        {teams.length > 0 && (
+          <div className="results-texts">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Plain" {...a11yProps(0)} />
+              <Tab label="Discord" {...a11yProps(1)} />
+            </Tabs>
+            <TabPanel value={value} index={0}>
+              <div className="copy">
+                <ContentCopyIcon
+                  className="copy-btn"
+                  onClick={() => copyResultsText(false)}
+                />
+                {copy && <div className="copied">COPIED</div>}
+              </div>
+              <div className="discord-code">{plainTextResults()}</div>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <div className="copy">
+                <ContentCopyIcon
+                  className="copy-btn"
+                  onClick={() => copyResultsText(true)}
+                />
+                {copy && <div className="copied">COPIED</div>}
+              </div>
+              <div className="discord-code">
+                <div>```</div>
+                {plainTextResults()}
+                <div>```</div>
+              </div>
+            </TabPanel>
+          </div>
+        )}
       </div>
       {!loading && (
         <div className="history">
